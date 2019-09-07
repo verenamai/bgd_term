@@ -1,0 +1,25 @@
+kafka-topics --create \
+			--if-not-exists \
+			--zookeeper zookeeper-1:2181 \
+			--topic predicted_tweets \
+			--partitions 6 \
+			--replication-factor 2
+
+
+			user$ docker exec -it broker-1 bash
+			root@broker-1:/# kafka-topics --create \
+			>             --if-not-exists \
+			>             --zookeeper zookeeper-1:2181 \
+			>             --topic tweets_eng \
+			>             --partitions 6 \
+			>             --replication-factor 2
+			WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+			Created topic tweets_eng.
+			root@broker-1:/# kafka-topics --create \
+			>             --if-not-exists \
+			>             --zookeeper zookeeper-1:2181 \
+			>             --topic predicted_tweets \
+			>             --partitions 6 \
+			>             --replication-factor 2
+			WARNING: Due to limitations in metric names, topics with a period ('.') or underscore ('_') could collide. To avoid issues it is best to use either, but not both.
+			Created topic predicted_tweets.

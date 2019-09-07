@@ -1,0 +1,38 @@
+\chapter{Model deployment}
+\label{chap:model_deployment}
+This chapter describes the steps for brining the app online. As I did not want to change the programming language I had to research if it is possible to build a python based website. This is possible with a python package so called flask. 
+As mentionen \ref{sec:introduction_disclaimer} I did the implementation of the first and Alexander Meier completed the work.
+
+\section{flask app}
+\label{sec:flask_app} 
+Flask is a microframework for Python based on Werkzeug, Jinja 2 and good intentions. \cite{flask} Werkzeug is a utility library for the Python programming language, and Jinja  is a template engine for the Python.
+
+I followed the tutorial \cite{flask_tut} to create the app with the first step classification, which was running local. 
+
+
+Parts of the app are following files:
+\begin{itemize}
+  \item api.py
+  \item preprocess.py
+  \item all models
+  \item css file
+  \item html files
+\end{itemize}
+
+As the code was in jupther notebooks and on a base of pandas data frames, I had to refactor it and change the whole preprocessing. The in put from online is just a sentence that is passed and not a whole column any more. 
+
+After processing I had to figure out how to import the model. At the beginning I just used the saved model without the vactorizer that was used to build the model. This leads into big problems: If the text is not passed trough the same vactorizer that was used for model training, the model can not deal with the text. For LSTM models the padding (described in chapter \ref{sec:lstm}) needs to be the same.
+
+The model result of model prediction at first comes in json:
+
+\begin{lstlisting}[float=h,frame=tb,caption={Model prediction json},label=lst:model_prediction]
+		{"prediction" : "[0]"}
+\end{lstlisting}  
+
+After the prediction worked, I included the result into the page. The next steps including all models and make it look nicer where done by Alexander Meier. As there are so many models api.py has application logic to call the right model. The call for the second step classification just takes place after the first step classification predicted 1, which is abusive.
+
+I wanted to have all models included, because I wanted to see how they perform in reality. On paper (see chapter \ref{chap:model_evaluation}) they perform all very well. With this app I have the possibility to compare the models directly. I was especially interested in  between up- and downsampling models. 
+
+\section{app on server}
+\label{sec:app_on_server} 
+

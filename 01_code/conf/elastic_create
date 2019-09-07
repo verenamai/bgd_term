@@ -1,0 +1,160 @@
+curl -XPUT 'http://localhost:9200/opportunities' -d '{
+  "mappings": {
+    "opportunities" : {
+      "properties" : {
+        "Id": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "AccountId": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Amount": {
+          "type": "double"
+        },
+        "CloseDate": {
+          "type": "date"
+        },
+        "LeadSource": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "OwnerId": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "StageName": {
+          "type": "string",
+          "index": "not_analyzed"
+        },
+        "TotalOpportunityQuantity": {
+          "type": "double"
+        },
+        "Type": {
+          "type": "string",
+          "index": "not_analyzed"
+        }
+      }
+    }
+  }
+}'
+
+
+curl -H "Content-Type: application/json""  -XPUT 'http://localhost:9200/predictedtweets' -d '{ \
+   "mappings": { \
+     "_id": ObjectID("5d5ae74d9194be000153670e"), \
+     "created_at": "Mon Aug 19 17:55:14 +0000 2019", \
+     "id": "12334556789000002", \
+     "text": "hier stehst ein tweet", \
+     "source": "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\"Twitter for Android</a", \
+     "user": { \
+         "id": 3333333333333, \
+         "name": "Hans Lundells", \
+         "screen_name": "dt751", \
+         "location": "Aston Pa", \
+         "url": null, \
+         "description": "#Blue Lives Matter,#Build The Wall,#Support All Law Enforcement, #Trump 2020,#MAGA,#KAG,#Stand For The Flag", \
+         "translator_type": "none",\
+         "protected": false,\
+         "verified": false,\
+         "followers_count": 1021,\
+         "friends_count": 1604,\
+         "listed_count": 0,\
+         "favourites_count": 10906,\
+         "statuses_count": 9761,\
+         "created_at": "Fri Jul 10 11:10:38 +0000 2015",\
+         "utc_offset": null,\
+         "time_zone": null,\
+         "geo_enabled": true,\
+         "lang": null,\
+         "contributors_enabled": false,\
+         "is_translator": false,\
+         "profile_background_color": "C0DEED",\
+         "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg3.png",\
+         "profile_background_image_url_https": "https://abs.twimg.com/images/themes/theme1/bg3.png",\
+         "profile_background_tile": false,\
+         "profile_link_color": "1DA1F2",\
+         "profile_sidebar_border_color": "C0DEED",\
+         "profile_sidebar_fill_color": "DDEEF6",\
+         "profile_text_color": "333333",\
+         "profile_use_background_image": true,\
+         "profile_image_url": "http://pbs.twimg.com/profile_images/1141789968509091840/xxxxxx_normal3.jpg",\
+         "profile_image_url_https": "https://pbs.twimg.com/profile_images/1141789968509091840/xxxxx_normal.jpg",\
+         "default_profile": true,\
+         "default_profile_image": false,\
+         "following": null,\
+         "follow_request_sent": null,\
+         "notifications": null\
+     },\
+     "geo": null,\
+     "coordinates": null,\
+     "place": null,\
+     "quote_count": 0,\
+     "reply_count": 0,\
+     "retweet_count": 0,\
+     "retweeted": false,\
+     "prediction": {\
+         "predictions": {\
+             "Linear_SVC": "abusive",\
+             "Logistic_Regression": "not abusive",\
+             "Multinomial_NB": "abusive",\
+             "lstm": "not abusive"\
+         },\
+         "probabilities": {\
+             "Linear_SVC": "69.38%",\
+             "Logistic_Regression": "62.83%",\
+             "Multinomial_NB": "72.70%",\
+             "lstm": "100.00%"\
+         },\
+         "probabilities_racist": {\
+             "Logistic_Regression": "-",\
+             "down_Linear_SVC": "8.19%",\
+             "down_Multinomial_NB": "2.50%",\
+             "lstm": "-",\
+             "up_Linear_SVC": "0.05%",\
+             "up_Multinomial_NB": "0.11%"\
+         },\
+         "probabilities_sexist": {\
+             "Logistic_Regression": "-",\
+             "down_Linear_SVC": "8.88%",\
+             "down_Multinomial_NB": "2.80%",\
+             "lstm": "-",\
+             "up_Linear_SVC": "0.07%",\
+             "up_Multinomial_NB": "0.04%"\
+         }\
+     }\
+   }\
+ }'
+
+
+Container connecten:
+  docker exec -it opvizor-elk bash
+
+Dann file erstellen
+  vi predicted_tweets_all.json
+
+Dann im VI copy paste
+  :set paste
+  i
+  paste
+  :w
+kontrollieren ob alles passt dann
+  :q
+
+#leeren Index anlegen
+curl -XPUT 'http://localhost:9200/predicted_tweets_all_attributes/'
+
+#tweet einfügen mit mapping, falls vorhanden
+ curl -vX POST 'http://localhost:9200/predictedtweets/_mapping/predictedtweets' –data-binary @predictedtweets.json
+
+#tweet einfügen ohne mapping
+ curl -vX POST 'http://localhost:9200/predictedtweets/tweet/1' -d @predictedtweets.json --header "Content-Type: application/json"
+ curl -vX POST 'http://localhost:9200/predicted_tweets_all_attributes/tweet/1' -d @predicted_tweets_all.json --header "Content-Type: application/json"
+
+# Inhalt in Elastic prüfen
+  curl -XGET http://localhost:9200/predictedtweets/tweet/_search
+  curl -XGET http://localhost:9200/predicted_tweets_all_attributes/tweet/_search

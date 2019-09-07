@@ -1,0 +1,7 @@
+
+
+kafka-topics --zookeeper zookeeper-1:2181 --alter --topic tweets_eng --config retention.ms=1000
+
+kafka-topics --zookeeper zookeeper-1:2181 --alter --topic tweets_eng --config retention.ms=129600000
+
+kafka-topics --zookeeper zookeeper-1:2181 --alter --topic predicted_tweets --config retention.ms=129600000
