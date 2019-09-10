@@ -9,4 +9,4 @@ und die Resulatete zu speichern:
 * Hasskommentare in Tweets erkennen, mittels der detect-hate App (www.detect-hate.com)
 * Tweets und Prognose der Modelle persitieren
 * Dashboard mit den Resultaten erstellen
-* INstallation auf dem nHex3 Big Data Cluster
+* Installation auf dem [nHex3 Big Data Cluster](http://bigboards.io/orderprototype/)
