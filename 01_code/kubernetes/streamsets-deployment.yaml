@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.17.0 (a74acad)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: streamsets
+  name: streamsets
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: streamsets
+    spec:
+      containers:
+      - image: trivadisbds/streamsets-kafka-nosql
+        name: streamsets
+        ports:
+        - containerPort: 18630
+        resources: {}
+      hostname: streamsets
+      restartPolicy: Always
+status: {}

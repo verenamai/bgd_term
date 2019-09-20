@@ -1,4 +1,35 @@
 \chapter{Fazit}
 \label{chap:fazit}
- 
+Die Semesterarebit hat viel Spass gemacht. Jedoch waren es zu viele neue Softwarekomponenten und Technologien auf einmal. Dadurch war die Einarbeitungszeit sehr hoch und intensiv. Bis auf Docker war alles andere neu f{\"u}r mich. Gerade f{\"u}r  eine saubere Portierung von einem Host mit Docker / Docker-Compose auf den nHex (resp. einen anderen Cluster) mit Kubernetes ist die Zeit sehr kurz bemessen und durch die lange Einarbeitungsphase blieb letzten Endes nur sehr wenig Zeit {\"u}brig f{\"u}r eine Optimierung der Kubernetes Installation. Auch f{\"u}r die Visualisierung und anschliessende ausf{\"u}hrliche Analyse in Kibana ist die Zeit dieser Semesterarbeit zu kurz. Der Schwerpunkt wurde aus diesem Grund auch bewusst nicht auf die Visualisierung und anschliessende Analyse gelegt, sondern lediglich auf den Aufbau der ganzen Plattform. 
+
+Der Ansatz die Anwendung erst lokal auf einem Node/Host zu realisieren und zu stabilisieren hat sich ausgezahlt. Dadurch konnte eine relativ einfache Umwandlung der docker-compose Datei in Kubernetes Deployments und Services erfolgen und eine aufw{\"a}ndige und zeitraubende Konfiguration der einzelnen Services in unterschiedlichen Dateien auf dem Kubernetes Cluster1 ist weitgehend entfallen.
+
+Der Aufbau und die Konfiguration der Pipelines hat mehr Zeit erfordert als urspr{\"u}nglich geplant. Dadurch dass teilweise erst beim Visualisieren in Kibana festgestellt wurde, dass der Index kein Zeitfeld ist, obwohl es eigentlich explizit als solches definiert war, musste die Pipeline angepasst und ein neuer Index erstellt werden. Es passierte manchmal auch, dass bei der lokalen Entwicklung Docker zu wenig Speicherplatz hatte. Dies hatte schwer zu analysierende Probleme zur Folge, da z.B. Kafka sporadisch nicht mehr fehlerfrei lief. Auch hier ging wieder wertvolle Zeit f{\"u}r die Analyse des Fehler verloren. 
+
+Mit dem Ergebnis der Semesterarbeit bin ich sehr zufrieden! Ich kann nun auf den erreichten Ergebnissen f{\"u}r die Masterarbeit aufsetzten. Die gesetzten Ziele 
+
+\begin{itemize}
+\item Abgesetzte Tweets direkt (live) von der Twitter API beziehen
+\item Unbearbeitete Tweets und Metainformationen in eine Datenbank persistieren um f{\"u}r die Masterarbeit Trainingsdaten zur Verf{\"u}gung zu haben.  
+\item Datenaufbereitung der von Twitter bezogenen Daten
+\item Hasskommentare in Tweets erkennen, mittels der detect-hate App
+\item Tweets und Prognose der Modelle persistieren
+\item Analyse Dashboard mit den klassifizierten Resultaten erstellen
+\end{itemize}
+
+wurden alle vollumf{\"a}nglich erreicht. Eine weitere wertvolle Erkenntnis wurde durch das Verhalten des Kibana Dashbords ab knapp 7'500'000 Tweets erlangt. Die Performace von Kibana verschlechterte sich massive, bis hin zu time outs. F{\"u}r mich war dieser Punkt (analog zu den Problemen mit der Performance der detect-hate App auf dem NAS) sehr wichtig um festzustellen, das Poof of Concetps (PoC) zwar gut und wichtig sind, jedoch das tats{\"a}chliche oder wahre Verhalten einer Anwendung erst mit gen{\"u}gend Last ersichtlich wird. Vor allem im Big Data Bereich muss bei PoCs auf eine gen{\"u}gend grosse Datenmenge und in meinem Fall einen entsprechenden Durchsatz im Streaming geachtet werden. Ansonsten kann es dein, dass der PoC sich unter realen Bedienungen nicht ansatzweise bew{\"a}hrt. 
+
+In meiner Arbeit traten diese zwei Faktoren auf und ich konnte die ersten entsprechenden Gegenmassnahmen treffen, das Portieren und Skalieren der detect-hate App. H{\"a}tte ich f{\"u}r diese Arbeit mit einem kleineren Stream (weniger Tweets pro Sekunde) und einer kleineren Anzahl an Tweets im Gesamten durchgef{\"u}hrt, w{\"a}ren diese Probleme nicht aufgetreten.
+
+
+\section{Ausblick}
+Weitere im Anschluss an die Semesterarbeit folgende Arbeiten, welche noch vor Beginn der Masterarbeit realisiert werden sind:
+
+\begin{itemize}
+  \item Weitere Anpassungen an der detect-hate App. Die Antwort soll optimiert werden und in der Servcie in der App wird angepasst, damit nicht mehr so viel Bereinigung in der Pipeline n{\"o}tig ist.
+  \item Erweitern der Kibana Dashboards.
+  \item Anpassen des Index in Elasticsearch, damit noch weitere Visualisierungen in Kibana gemacht werden k{\"o}nnen.
+  \item Manuelles pr{\"u}fen, um eine Aussage {\"u}ber die Qualit{\"a}t der Klassifizierung zu bekommen und die Daten f{\"u}r weiteres Modelltraining nutzen zu k{\"o}nnen.
+\end{itemize}
+
 
