@@ -1,7 +1,6 @@
 # Aufbau einer Streaming und Analyse Umgebung für detect-hate.com
 
-Inhalt dieser Semesterarbeit ist es eine Streaming und Analyse Umgebung aufzubauen um Tweets direkt zu klassifizieren 
-und die Resulatete zu speichern:
+Inhalt dieses Github Repos sind die Unterlagen für meine Semesterarbeit im CAS Big Data. Darin wird der Aufbau einer Streaming und Analyse Umgebung für Tweets von der Twitter API bezieht und diese anschliessend klassifiziert beschrieben:
 
 * Abgesetzte Tweets von der Twitter API beziehen
 * Unbearbeitet Tweets und Metainformationen in einer Datenbank persistenten um für die Matserarbeit Trainingsdaten zur Verfügung zu haben. Mit diesen Daten sollen spu ̈ter die Machine Leaerning Modell von trainiert werden.
